@@ -13,24 +13,36 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 
 		var coachSelected = JSON.parse(sessionStorage.getItem('coachSelected'));
 		var firstSelected = JSON.parse(sessionStorage.getItem('firstSelected'));
+
 		if (coachSelected == null) coachSelected = [];
 		if (firstSelected == null) firstSelected = [];
 		console.log("coach:" + coachSelected);
 		console.log("first:" + firstSelected);
 
+		var btn_dom = document.querySelector('div.tal_c');
+
 		if (sessionStorage.getItem('macro') == "true") {
-			$("div.button").append('<a href="#" onclick="macrostop();" style="margin-left:5px;"><img src="' + chrome.extension.getURL('images/btn_stop.png') + '"></a>');
+			var link = document.createElement('a');
+			link.setAttribute('href', '#');
+			link.setAttribute('onclick', 'macrostop();');
+			link.setAttribute('style', "margin-left:5px;");
+			var img = document.createElement('img');
+			img.setAttribute('src', chrome.extension.getURL('images/btn_stop.png'));
+			img.setAttribute('style', 'vertical-align:middle;');
+			link.appendChild(img);
+			btn_dom.appendChild(link);
 		} else {
-			$("div.button").append('<a href="#" onclick="macro();" style="margin-left:5px;"><img src="' + chrome.extension.getURL('images/btn_start.png') + '"></a>');
+			var link = document.createElement('a');
+			link.setAttribute('href', '#');
+			link.setAttribute('onclick', 'macro();');
+			link.setAttribute('style', "margin-left:5px;");
+			var img = document.createElement('img');
+			img.setAttribute('src', chrome.extension.getURL('images/btn_start.png'));
+			img.setAttribute('style', 'vertical-align:middle;');
+			link.appendChild(img);
+			btn_dom.appendChild(link);
 		}
 
-		$("<style>")
-    .prop("type", "text/css")
-    .html("\
-    .search-form form .button input, .search-form form .button a img{\
-    	vertical-align: middle;\
-    }")
-    .appendTo("body");
 
 		// Inserts the macro button into the table.
 		if ($("#search-list").length != 0) {
@@ -76,10 +88,14 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 
 					if (coachSelected.indexOf(i+"") > -1) {
 						var coachSpecials = coach.children("a");
+						console.log('coachSpecials', coachSpecials);
+
 						if (coachSpecials.length != 0) {
 							for (j = 0; j < coachSpecials.length; j++) {
 								name = $(coachSpecials[j]).attr('class');
-								if (name == 'button button-02') {
+								console.log('name', name);
+								if (name == 'btn_small btn_burgundy_dark val_m wx90') {
+									alert('clicked!!!');
 									$(coachSpecials[0])[0].click();
 									succeed = true;
 									break;
@@ -94,7 +110,7 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 						if (firstSpecials.length != 0) {
 							for (j = 0; j < firstSpecials.length; j++) {
 								name = $(firstSpecials[j]).attr('class');
-								if (name == 'button button-02') {
+								if (name == 'btn_small btn_burgundy_dark val_m wx90') {
 									$(firstSpecials[0])[0].click();
 									succeed = true;
 									break;
@@ -106,6 +122,7 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 				}
 
 				if (succeed == true) {
+					//성공시 매크로 정지
 					sessionStorage.removeItem('macro');
 					sessionStorage.removeItem('coachSelected');
 					sessionStorage.removeItem('firstSelected');
