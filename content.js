@@ -137,30 +137,31 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 		}
 	});
 } else if (document.URL.substring(0, resultUrl.length) === resultUrl) {
-	var msgdom = document.querySelector('div.box2.val_m.tal_c > span');
-	var paybtn = document.querySelector('a.btn_large.btn_blue_dark.val_m.mgr10 > span');
-	console.log(msgdom);
-	if (msgdom && msgdom.innerText === "잔여석없음") {
-		alert('실패....');
-		console.log("사실 실패");
-		setTimeout(function() {
-			history.go(-1);
-		}, 1000);
-	} else if (paybtn && paybtn.innerText === "결제하기") {
-		alert('성공!!');
-		//성공시 매크로 정지
-		sessionStorage.removeItem('macro');
-		sessionStorage.removeItem('coachSelected');
-		sessionStorage.removeItem('firstSelected');
-		sessionStorage.removeItem('psgInfoPerPrnb1');
-		sessionStorage.removeItem('psgInfoPerPrnb5');
-		sessionStorage.removeItem('psgInfoPerPrnb4');
-		sessionStorage.removeItem('psgInfoPerPrnb2');
-		sessionStorage.removeItem('psgInfoPerPrnb3');
-		sessionStorage.removeItem('locSeatAttCd1');
-		sessionStorage.removeItem('rqSeatAttCd1');
-		chrome.extension.sendMessage({type: 'playSound'}, function(data) { });
-	} else {
-		alert('이도저도아님...?!');
+	if (sessionStorage.getItem('macro') == "true") {
+		var msgdom = document.querySelector('div.box2.val_m.tal_c > span');
+		var paybtn = document.querySelector('a.btn_large.btn_blue_dark.val_m.mgr10 > span');
+		console.log(msgdom);
+		if (msgdom && msgdom.innerText === "잔여석없음") {
+			alert('실패....');
+			console.log("사실 실패");
+			setTimeout(function() {
+				history.go(-1);
+			}, 1000);
+		} else if (paybtn && paybtn.innerText === "결제하기") {
+			//성공시 매크로 정지
+			sessionStorage.removeItem('macro');
+			sessionStorage.removeItem('coachSelected');
+			sessionStorage.removeItem('firstSelected');
+			sessionStorage.removeItem('psgInfoPerPrnb1');
+			sessionStorage.removeItem('psgInfoPerPrnb5');
+			sessionStorage.removeItem('psgInfoPerPrnb4');
+			sessionStorage.removeItem('psgInfoPerPrnb2');
+			sessionStorage.removeItem('psgInfoPerPrnb3');
+			sessionStorage.removeItem('locSeatAttCd1');
+			sessionStorage.removeItem('rqSeatAttCd1');
+			chrome.extension.sendMessage({type: 'playSound'}, function(data) { });
+		} else {
+			alert('이도저도아님...?!');
+		}
 	}
 }
