@@ -170,7 +170,7 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 		var paybtn = document.querySelector('a.btn_large.btn_blue_dark.val_m.mgr10 > span');
 		var waitmsg = document.querySelector('#wrap > div.container.container-e > div > div.sub_con_area > div.alert_box > span:nth-child(2)');
 		console.log(msgdom);
-		if (msgdom && msgdom.innerText === "잔여석없음") {
+		if (msgdom && (msgdom.innerText === "잔여석없음" || msgdom.dom.innerText === "예약대기자한도수초과")) {
 			alert('실패....');
 			console.log("사실 실패");
 			setTimeout(function() {
