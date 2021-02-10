@@ -23,6 +23,11 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 		console.log("coach:" + coachSelected);
 		console.log("first:" + firstSelected);
 		console.log("wait:" + waitSelected);
+		if (sessionStorage.getItem("needRefresh") == true) {
+			sessionStorage.setItem("needRefresh", "false");
+			document.querySelector('#search_top_tag > input').click();
+			return;
+		}
 
 		var btn_dom = document.querySelector('div.tal_c');
 
@@ -171,11 +176,9 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 		var waitmsg = document.querySelector('#wrap > div.container.container-e > div > div.sub_con_area > div.alert_box > span:nth-child(2)');
 		console.log(msgdom);
 		if (msgdom && (msgdom.innerText === "잔여석없음" || msgdom.dom.innerText === "예약대기자한도수초과")) {
-			alert('실패....');
-			console.log("사실 실패");
-			setTimeout(function() {
-				history.go(-1);
-			}, 1000);
+			//실패
+			sessionStorage.setItem("needRefresh", true);
+			location.href = dsturl1;
 		} else if (paybtn && paybtn.innerText === "결제하기") {
 			// 좌석 선점 성공시 매크로 정지
 			sessionStorage.removeItem('macro');
