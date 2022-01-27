@@ -130,6 +130,10 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 								name = $(firstSpecials[j]).attr('class');
 								if (name == 'btn_small btn_burgundy_dark val_m wx90') {
 									$(firstSpecials[0])[0].click();
+									var coronaConfirm = document.querySelector('body > div.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button');
+									if (coronaConfirm != null && coronaConfirm.click && typeof coronaConfirm.click === 'function') {
+										coronaConfirm.click();
+									}
 									succeed = true;
 									break;
 								}
