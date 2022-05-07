@@ -222,8 +222,7 @@ let resultPageController = function() {
 		console.log(paybtn);
 		if (msgdom && (msgdom.innerText === "잔여석없음" || msgdom.innerText === "예약대기자한도수초과")) {
 			//실패
-			sessionStorage.setItem("needRefresh", "true");
-			location.href = reservePageUrl;
+			setNeedRefresh();
 		} else if (paybtn && paybtn.innerText === "결제하기") {
 			// 좌석 선점 성공시 매크로 정지
 			clearData();
