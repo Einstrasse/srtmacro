@@ -26,6 +26,13 @@ $(document).ready(() => {
 			console.log("wait:" + waitSelected);
 			if (sessionStorage.getItem("needRefresh") == true) {
 				sessionStorage.removeItem("needRefresh");
+				$("[name=psgInfoPerPrnb1]").val(sessionStorage.getItem('psgInfoPerPrnb1'));
+				$("[name=psgInfoPerPrnb5]").val(sessionStorage.getItem('psgInfoPerPrnb5'));
+				$("[name=psgInfoPerPrnb4]").val(sessionStorage.getItem('psgInfoPerPrnb4'));
+				$("[name=psgInfoPerPrnb2]").val(sessionStorage.getItem('psgInfoPerPrnb2'));
+				$("[name=psgInfoPerPrnb3]").val(sessionStorage.getItem('psgInfoPerPrnb3'));
+				$("[name=locSeatAttCd1]").val(sessionStorage.getItem('locSeatAttCd1'));
+				$("[name=rqSeatAttCd1]").val(sessionStorage.getItem('rqSeatAttCd1'));
 				document.querySelector('#search_top_tag > input').click();
 				return;
 			}
@@ -86,13 +93,13 @@ $(document).ready(() => {
 	
 			if (sessionStorage.getItem('macro') == "true") {
 				// Restores user preferences
-				$("#psgInfoPerPrnb1").val(sessionStorage.getItem('psgInfoPerPrnb1'));
-				$("#psgInfoPerPrnb5").val(sessionStorage.getItem('psgInfoPerPrnb5'));
-				$("#psgInfoPerPrnb4").val(sessionStorage.getItem('psgInfoPerPrnb4'));
-				$("#psgInfoPerPrnb2").val(sessionStorage.getItem('psgInfoPerPrnb2'));
-				$("#psgInfoPerPrnb3").val(sessionStorage.getItem('psgInfoPerPrnb3'));
-				$("#locSeatAttCd1").val(sessionStorage.getItem('locSeatAttCd1'));
-				$("#rqSeatAttCd1").val(sessionStorage.getItem('rqSeatAttCd1'));
+				$("[name=psgInfoPerPrnb1]").val(sessionStorage.getItem('psgInfoPerPrnb1'));
+				$("[name=psgInfoPerPrnb5]").val(sessionStorage.getItem('psgInfoPerPrnb5'));
+				$("[name=psgInfoPerPrnb4]").val(sessionStorage.getItem('psgInfoPerPrnb4'));
+				$("[name=psgInfoPerPrnb2]").val(sessionStorage.getItem('psgInfoPerPrnb2'));
+				$("[name=psgInfoPerPrnb3]").val(sessionStorage.getItem('psgInfoPerPrnb3'));
+				$("[name=locSeatAttCd1]").val(sessionStorage.getItem('locSeatAttCd1'));
+				$("[name=rqSeatAttCd1]").val(sessionStorage.getItem('rqSeatAttCd1'));
 	
 				if ($("#search-list").length != 0) {
 					var rows = $('#search-list table tr');
@@ -170,7 +177,8 @@ $(document).ready(() => {
 						}, 1000);
 					}
 				} else {
-					history.go(-1);
+					sessionStorage.setItem("needRefresh", true);
+					location.href = dsturl1;
 				}
 			}
 		});
