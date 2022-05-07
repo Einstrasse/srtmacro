@@ -123,8 +123,6 @@ let reservePageController = function() {
 					wait.append(checkbox);
 				}
 			}
-		} else {
-			setNeedRefresh();
 		}
 
 		if (sessionStorage.getItem('macro') === "true") {
