@@ -1,38 +1,35 @@
+let audio;
+
 function playSound() {
-	if (typeof(audio) != "undefined" && audio) {
-		audio.pause();
-		document.body.removeChild(audio);
-		audio = null;
-	}
-	audio = document.createElement('audio');
-	document.body.appendChild(audio);
-	audio.autoplay = true;
-	audio.src = chrome.extension.getURL('assets/tada.mp3');
-	audio.play();
+    if (audio) {
+        audio.pause();
+        audio = null;
+    }
+    audio = new Audio(chrome.runtime.getURL('assets/tada.mp3'));
+    audio.play();
 }
 
 function sendTelegramMessage() {
-	var botToken = localStorage['botToken'];
-	var chatId = localStorage['chatId'];
-	var msg = encodeURI('Macro has been stopped. Please check your reservation status.');
-	if (botToken != undefined && chatId != undefined) {
-		var url = 'https://api.telegram.org/bot' + botToken + '/sendmessage?chat_id=' + chatId + '&text=' + msg;
-		
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.onreadystatechange=function() {
-			if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-				var response = xmlhttp.responseText; //if you need to do something with the returned value
-			}
-		}
-		xmlhttp.open('GET', url, true);
-		xmlhttp.send();
-	}
+    chrome.storage.local.get(['botToken', 'chatId'], function(result) {
+        const botToken = result.botToken;
+        const chatId = result.chatId;
+        const msg = encodeURIComponent('Macro has been stopped. Please check your reservation status.');
+        if (botToken && chatId) {
+            const url = `https://api.telegram.org/bot${botToken}/sendmessage?chat_id=${chatId}&text=${msg}`;
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => console.log('Telegram message sent:', data))
+                .catch(error => console.error('Error sending Telegram message:', error));
+        }
+    });
 }
 
-chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
-    if (message && message.type == 'playSound') {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message && message.type === 'playSound') {
         playSound();
-		sendTelegramMessage();
+        sendTelegramMessage();
         sendResponse(true);
     }
+    return true; // 비동기 응답을 위해 true 반환
 });
